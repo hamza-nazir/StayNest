@@ -1,0 +1,104 @@
+<% layout('layouts/boilerplate') -%>
+
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="card border-0 shadow-sm">
+        <div class="card-body p-4 p-md-5">
+          <h1 class="text-center mb-4"><i class="fas fa-envelope text-primary me-2"></i>Contact Us</h1>
+          
+          <div class="row g-4">
+            <div class="col-md-6">
+              <div class="contact-info p-4 border rounded-3 h-100">
+                <h3 class="h5 mb-3"><i class="fab fa-whatsapp me-2 text-success"></i>WhatsApp</h3>
+                <p>
+                  <a href="https://wa.me/923314567596" class="text-decoration-none">+92 331 4567596</a>
+                </p>
+                
+                <h3 class="h5 mt-4 mb-3"><i class="fab fa-instagram me-2 text-danger"></i>Instagram</h3>
+                <p>
+                  <a href="https://instagram.com/hamzaa_nazirr" target="_blank" class="text-decoration-none">@hamzaa_nazirr</a>
+                </p>
+                
+                <h3 class="h5 mt-4 mb-3"><i class="fab fa-facebook me-2 text-primary"></i>Facebook</h3>
+                <p>
+                  <a href="https://facebook.com/hamzaa_nazirr" target="_blank" class="text-decoration-none">@hamzaa_nazirr</a>
+                </p>
+                
+                <h3 class="h5 mt-4 mb-3"><i class="fas fa-envelope me-2 text-primary"></i>Email</h3>
+                <p>
+                  <a href="mailto:hamzanazir780@gmail.com" class="text-decoration-none">hamzanazir780@gmail.com</a>
+                </p>
+              </div>
+            </div>
+            
+            <div class="col-md-6">
+              <form class="contact-form needs-validation" novalidate action="/listings" method="get">
+                <div class="mb-3">
+                  <label for="name" class="form-label">Your Name</label>
+                  <input type="text" class="form-control" id="name" name="name" required>
+                  <div class="invalid-feedback">Please provide your name</div>
+                </div>
+                <div class="mb-3">
+                  <label for="email" class="form-label">Email Address</label>
+                  <input type="email" class="form-control" id="email" name="email" required>
+                  <div class="invalid-feedback">Please provide a valid email</div>
+                </div>
+                <div class="mb-3">
+                  <label for="message" class="form-label">Message</label>
+                  <textarea class="form-control" id="message" name="message" rows="4" required></textarea>
+                  <div class="invalid-feedback">Please enter your message</div>
+                </div>
+                <button type="submit" class="btn btn-primary w-100">
+                  <i class="fas fa-paper-plane me-2"></i> Send Message
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .contact-info {
+    background-color: #f8f9fa;
+  }
+  .contact-info h3 {
+    color: #0d6efd;
+  }
+  .contact-info a {
+    color: #495057;
+    transition: color 0.2s;
+  }
+  .contact-info a:hover {
+    color: #0d6efd;
+    text-decoration: underline;
+  }
+  .contact-form {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+  .fab {
+    font-size: 1.1rem;
+  }
+</style>
+
+<script>
+// Form validation
+(() => {
+  'use strict'
+  const forms = document.querySelectorAll('.needs-validation')
+  Array.from(forms).forEach(form => {
+    form.addEventListener('submit', event => {
+      if (!form.checkValidity()) {
+        event.preventDefault()
+        event.stopPropagation()
+      }
+      form.classList.add('was-validated')
+    }, false)
+  })
+})()
+</script>

@@ -1,0 +1,137 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top border-bottom">
+  <div class="container">
+    <!-- Brand with logo and text -->
+    <a class="navbar-brand d-flex align-items-center" href="/">
+      <i class="fas fa-compass text-primary me-2" style="font-size: 1.5rem;"></i>
+      <span class="fw-bold fs-4 text-gradient">Stay<span class="text-primary">Nest</span></span>
+    </a>
+
+    <!-- Mobile toggle button -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Nav links -->
+    <div class="collapse navbar-collapse" id="mainNav">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link px-3 py-2 position-relative" href="/">
+            <i class="fas fa-home me-1"></i> Home
+            <span class="position-absolute bottom-0 start-50 translate-middle-x bg-primary rounded" style="height: 2px; width: 0; transition: width 0.3s ease;"></span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link px-3 py-2 position-relative" href="/listings/new">
+            <i class="fas fa-plus-circle me-1"></i> Add Listing
+            <span class="position-absolute bottom-0 start-50 translate-middle-x bg-primary rounded" style="height: 2px; width: 0; transition: width 0.3s ease;"></span>
+          </a>
+        </li>
+      </ul>
+
+      <!-- Auth buttons -->
+      <div class="d-flex align-items-center ms-2">
+        <% if (!currentUser) { %>
+          <div class="d-flex flex-column flex-md-row">
+            <a href="/signup" class="btn btn-outline-primary rounded-pill me-md-2 mb-2 mb-md-0 px-3">
+              <i class="fas fa-user-plus me-1"></i> <span class="d-none d-md-inline">Sign Up</span>
+            </a>
+            <a href="/login" class="btn btn-primary rounded-pill px-3">
+              <i class="fas fa-sign-in-alt me-1"></i> <span class="d-none d-md-inline">Login</span>
+            </a>
+          </div>
+        <% } else { %>
+          <div class="dropdown position-static"> <!-- Changed to position-static -->
+            <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+              <div class="avatar-sm me-2 d-flex align-items-center justify-content-center bg-primary bg-opacity-10 rounded-circle">
+                <i class="fas fa-user text-primary"></i>
+              </div>
+              <span class="d-none d-lg-inline">@<%= currentUser.username %></span>
+              <span class="d-lg-none"><i class="fas fa-chevron-down ms-1"></i></span>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0 rounded-lg mt-2" style="position: absolute; right: 15px; left: auto;" aria-labelledby="userDropdown">
+              <li><a class="dropdown-item py-2" href="/profile"><i class="fas fa-user-circle me-2"></i>Profile</a></li>
+              <li><a class="dropdown-item py-2" href="/settings"><i class="fas fa-cog me-2"></i>Settings</a></li>
+              <li><hr class="dropdown-divider my-1"></li>
+              <li><a class="dropdown-item py-2 text-danger" href="/logout"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
+            </ul>
+          </div>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<style>
+  /* Navbar styling */
+  .navbar {
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+  }
+  
+  .nav-link {
+    font-weight: 500;
+    color: #495057;
+    transition: all 0.3s ease;
+    margin: 0 0.25rem;
+  }
+  
+  .nav-link:hover,
+  .nav-link.active {
+    color: #0d6efd !important;
+  }
+  
+  .nav-link:hover span,
+  .nav-link.active span {
+    width: 60% !important;
+  }
+  
+  /* Dropdown styling */
+  .dropdown-menu {
+    min-width: 200px;
+    border: 1px solid rgba(0,0,0,0.05) !important;
+  }
+  
+  .dropdown-item {
+    border-radius: 0.25rem;
+    margin: 0.25rem;
+    transition: all 0.2s ease;
+  }
+  
+  .dropdown-item:hover {
+    background-color: #f8f9fa;
+    padding-left: 1rem !important;
+  }
+  
+  /* Avatar styling */
+  .avatar-sm {
+    width: 32px;
+    height: 32px;
+  }
+  
+  /* Text gradient for brand */
+  .text-gradient {
+    background: linear-gradient(to right, #212529 0%, #0d6efd 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  /* Mobile-specific adjustments */
+  @media (max-width: 991.98px) {
+    .dropdown {
+      position: relative !important;
+    }
+    
+    .dropdown-menu {
+      position: absolute !important;
+      right: 15px !important;
+      left: auto !important;
+      width: auto !important;
+      min-width: 200px !important;
+    }
+    
+    .navbar-collapse {
+      padding-bottom: 1rem;
+    }
+  }
+</style>

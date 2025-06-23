@@ -1,0 +1,45 @@
+<% layout('layouts/boilerplate') -%>
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+      <div class="alert alert-danger alert-dismissible fade show shadow-sm" role="alert">
+        <div class="d-flex align-items-center">
+          <i class="fas fa-exclamation-triangle me-3 fs-4"></i>
+          <div>
+            <h5 class="alert-heading mb-1">Error Occurred</h5>
+            <p class="mb-0"><%= err.name %></p>
+          </div>
+          <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .alert {
+    border-left: 4px solid #dc3545;
+    border-radius: 0.5rem;
+    padding: 1rem 1.25rem;
+    transition: all 0.3s ease;
+  }
+  .alert-danger {
+    background-color: #fdf3f4;
+    color: #721c24;
+  }
+  .alert-heading {
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: #dc3545;
+  }
+  .btn-close {
+    padding: 0.75rem;
+    opacity: 0.8;
+  }
+  .btn-close:hover {
+    opacity: 1;
+  }
+  .fa-exclamation-triangle {
+    color: #dc3545;
+  }
+</style>

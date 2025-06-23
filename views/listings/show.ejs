@@ -1,0 +1,275 @@
+<%layout('/layouts/boilerplate') -%>
+<script>
+  const coordinates = <%- JSON.stringify(data.geometry.coordinates) %>;
+</script>
+
+<div class="container py-4">
+  <% if (success && success.length) { %>
+    <div class="alert alert-primary alert-dismissible fade show col-md-8 mx-auto mt-3">
+      <%= success %>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  <% } %>
+
+  <!-- Listing Details Section -->
+  <div class="row justify-content-center mt-4">
+    <div class="col-lg-10">
+      <div class="card border-0 shadow-sm mb-5">
+        <div class="card-body p-4">
+          <div class="row">
+            <!-- Listing Image -->
+            <div class="col-md-5 mb-4 mb-md-0">
+              <img src="<%= data.image.url %>" class="img-fluid rounded-3" alt="<%= data.title %>" style="max-height: 400px; width: 100%; object-fit: cover;">
+            </div>
+            
+            <!-- Listing Details -->
+            <div class="col-md-7">
+              <h1 class="h2 fw-light mb-3"><%= data.title %></h1>
+              
+              <div class="d-flex align-items-center mb-3">
+                <div class="owner-icon-wrapper me-2">
+                  <i class="fas fa-crown text-warning"></i>
+                </div>
+                <span class="text-muted"><%= data.owner.username %></span>
+              </div>
+
+              <div class="d-flex align-items-center mb-3">
+                <i class="fas fa-rupee-sign text-muted me-2"></i>
+                <span class="fs-5 fw-semibold">₹<%= data.price.toLocaleString('en-PK') %> per night</span>
+              </div>
+              
+              <div class="d-flex align-items-center mb-3">
+                <i class="fas fa-map-marker-alt text-muted me-2"></i>
+                <span><%= data.location %>, <%= data.country %></span>
+              </div>
+
+              <!-- Description Section -->
+              <div class="mb-4">
+                <h5 class="fw-semibold mb-2">Description</h5>
+                <p class="text-muted"><%= data.description %></p>
+              </div>
+              
+              <% if(currentUser && currentUser._id.equals(data.owner._id)) { %>
+                <div class="mt-4 pt-3 border-top">
+                  <a href="/listings/<%= data._id %>/edit" class="btn btn-primary me-2">
+                    <i class="fas fa-edit me-1"></i> Edit Listing
+                  </a>
+                  
+                  <form method="post" action="/listings/<%= data._id %>?_method=DELETE" class="d-inline">
+                    <button type="submit" class="btn btn-danger">
+                      <i class="fas fa-trash-alt me-1"></i> Delete Listing
+                    </button>
+                  </form>
+                </div>
+              <% } %>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Review Form Section -->
+      <% if(currentUser) { %>
+        <div class="card border-0 shadow-sm mb-5">
+          <div class="card-body p-4">
+            <h3 class="h4 mb-4">Leave a Review</h3>
+            
+            <form novalidate class="needs-validation" action="/listings/<%= data._id %>/reviews" method="post">
+              <div class="mb-3">
+                <label class="form-label fw-semibold">Your Rating</label>
+                <div class="rating-container mb-3">
+                  <% for(let i=5; i>=1; i--) { %>
+                    <input type="radio" id="star<%= i %>" name="review[rating]" value="<%= i %>" <%= i === 5 ? 'checked' : '' %>>
+                    <label for="star<%= i %>" class="rating-star">★</label>
+                  <% } %>
+                </div>
+              </div>
+              
+              <div class="mb-3">
+                <label for="comment" class="form-label fw-semibold">Comments</label>
+                <textarea required class="form-control" name="review[comment]" id="comment" rows="3"></textarea>
+                <div class="invalid-feedback">Please provide your feedback</div>
+              </div>
+              
+              <button type="submit" class="btn btn-primary">
+                <i class="fas fa-paper-plane me-1"></i> Submit Review
+              </button>
+            </form>
+          </div>
+        </div>
+      <% } %>
+      
+      <!-- Reviews Section -->
+      <% if(data.reviews && data.reviews.length > 0) { %>
+        <div class="card border-0 shadow-sm mb-5">
+          <div class="card-body p-4">
+            <h3 class="h4 mb-4">Customer Reviews (<%= data.reviews.length %>)</h3>
+            
+            <div class="row g-4">
+              <% data.reviews.forEach(review => { %>
+                <div class="col-md-6">
+                  <div class="p-3 border rounded-3 h-100">
+                    <div class="d-flex align-items-center mb-2">
+                      <% if(review.author && review.author.profileImage) { %>
+                        <img src="<%= review.author.profileImage %>" 
+                             class="rounded-circle me-2" 
+                             width="32" 
+                             height="32" 
+                             alt="<%= review.author.username %>'s profile picture"
+                             style="object-fit: cover;">
+                      <% } else { %>
+                        <div class="avatar-placeholder rounded-circle bg-light text-muted d-flex align-items-center justify-content-center me-2" 
+                             style="width: 32px; height: 32px;">
+                          <i class="fas fa-user"></i>
+                        </div>
+                      <% } %>
+                      <h5 class="mb-0">
+                        <% if(review.author) { %>
+                          StayNest-User
+                        <% } else { %>
+                          [Deleted User]
+                        <% } %>
+                      </h5>
+                    </div>
+                    
+                    <div class="rating-display mb-2" data-rating="<%= review.rating %>">
+                      <% for(let i=1; i<=5; i++) { %>
+                        <span class="rating-star <%= i <= review.rating ? 'filled' : '' %>">★</span>
+                      <% } %>
+                    </div>
+                    
+                    <p class="mb-3"><%= review.comment %></p>
+                    
+                    <% if(currentUser && review.author && currentUser._id.equals(review.author._id)) { %>
+                      <form method="post" action="/listings/<%= data._id %>/reviews/<%= review._id %>?_method=DELETE" class="mt-auto">
+                        <button type="submit" class="btn btn-sm btn-outline-dark">
+                          <i class="fas fa-trash-alt me-1"></i> Delete
+                        </button>
+                      </form>
+                    <% } %>
+                  </div>
+                </div>
+              <% }) %>
+            </div>
+          </div>
+        </div>
+      <% } else { %>
+        <div class="card border-0 shadow-sm mb-5">
+          <div class="card-body p-4 text-center text-muted">
+            <i class="fas fa-comment-slash fa-2x mb-3"></i>
+            <h4>No reviews yet</h4>
+            <% if(currentUser) { %>
+              <p>Be the first to review this property!</p>
+            <% } else { %>
+              <p><a href="/login" class="text-primary">Log in</a> to leave a review</p>
+            <% } %>
+          </div>
+        </div>
+      <% } %>
+      
+      <!-- Map Section -->
+      <div class="card border-0 shadow-sm">
+        <div class="card-body p-4">
+          <h3 class="h4 mb-3">Location</h3>
+          <div id="map" data-token="<%= process.env.MAP_TOKEN %>" style="height: 400px; border-radius: 8px;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Map Script -->
+<script src="/js/map.js"></script>
+
+<!-- Custom Styles -->
+<style>
+  /* Rating System Styles */
+  .rating-container {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+  }
+  
+  .rating-container input {
+    display: none;
+  }
+  
+  .rating-star {
+    font-size: 2rem;
+    color: #ddd;
+    cursor: pointer;
+    transition: color 0.2s;
+  }
+  
+  .rating-container input:checked ~ label,
+  .rating-container input:hover ~ label,
+  .rating-container label:hover,
+  .rating-container label:hover ~ label {
+    color: #ffc107;
+  }
+  
+  .rating-display {
+    color: #ffc107;
+    font-size: 1.5rem;
+    letter-spacing: 2px;
+  }
+  
+  .rating-display .rating-star {
+    font-size: 1.5rem;
+    color: #ddd;
+  }
+  
+  .rating-display .filled {
+    color: #ffc107;
+  }
+  
+  /* Card and Layout Styles */
+  .card {
+    border-radius: 0.5rem;
+  }
+  
+  #map {
+    width: 100%;
+    height: 400px;
+    border-radius: 8px;
+  }
+  
+  .text-muted {
+    color: #6c757d;
+  }
+  
+  .owner-icon-wrapper {
+    width: 32px;
+    height: 32px;
+    background-color: #f8f9fa;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #dee2e6;
+  }
+  
+  .fa-crown {
+    font-size: 0.9rem;
+  }
+  
+  .avatar-placeholder {
+    font-size: 0.8rem;
+  }
+</style>
+
+<script>
+// Form validation
+(() => {
+  'use strict'
+  const forms = document.querySelectorAll('.needs-validation')
+  Array.from(forms).forEach(form => {
+    form.addEventListener('submit', event => {
+      if (!form.checkValidity()) {
+        event.preventDefault()
+        event.stopPropagation()
+      }
+      form.classList.add('was-validated')
+    }, false)
+  })
+})()
+</script> 

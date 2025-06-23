@@ -1,0 +1,44 @@
+<% layout('layouts/boilerplate') -%>
+
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="card border-0 shadow-sm">
+        <div class="card-body p-4 p-md-5">
+          <h1 class="text-center mb-4"><i class="fas fa-shield-alt text-primary me-2"></i>Privacy Policy</h1>
+          
+          <div class="policy-content">
+            <h3 class="h5 mt-4">1. Information We Collect</h3>
+            <p>We collect information you provide when creating an account, making bookings, or contacting us. This may include your name, email address, payment details, and property information.</p>
+            
+            <h3 class="h5 mt-4">2. How We Use Your Information</h3>
+            <p>Your information is used to provide and improve our services, process transactions, communicate with you, and ensure platform security.</p>
+            
+            <h3 class="h5 mt-4">3. Data Protection</h3>
+            <p>We implement security measures to protect your data. However, no method of transmission over the Internet is 100% secure.</p>
+            
+            <h3 class="h5 mt-4">4. Third-Party Services</h3>
+            <p>We may use third-party services for payment processing, analytics, and marketing. These services have their own privacy policies.</p>
+            
+            <h3 class="h5 mt-4">5. Your Rights</h3>
+            <p>You may access, correct, or delete your personal information through your account settings or by contacting us.</p>
+            
+            <div class="mt-5 text-muted small">
+              <p>Last updated: <%= new Date().toLocaleDateString() %></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .policy-content h3 {
+    color: #0d6efd;
+    font-weight: 600;
+  }
+  .policy-content p {
+    color: #495057;
+  }
+</style>
