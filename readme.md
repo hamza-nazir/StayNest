@@ -8,7 +8,7 @@ Features
 - Browse and book travel tours
 - MongoDB-based storage for tours, users, and bookings
 - EJS templates with dynamic rendering
-- Admin panel to manage listings
+
 
 
 Tech Stack
